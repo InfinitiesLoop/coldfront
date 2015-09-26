@@ -14,8 +14,8 @@ var batch = require('gulp-batch');
 var less = require('gulp-less');
 
 var PATHS = {
-    mainjs: "./src/main.js",
-    js: "./src/**/*.js",
+    mainjs: "./src/js/main.js",
+    js: "./src/js/**/*.js",
     html: "./src/**/*.html",
     less: "./src/**/*.less",
     bundlejs: "app.js",
@@ -44,7 +44,7 @@ function buildJs(enableWatch) {
         .pipe(uglify())
         .on('error', gutil.log)
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(PATHS.dist + '/scripts/'));
+        .pipe(gulp.dest(PATHS.dist + '/js'));
 }
 
 function buildHtml() {
