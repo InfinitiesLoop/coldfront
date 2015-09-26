@@ -14,12 +14,14 @@ var batch = require('gulp-batch');
 var less = require('gulp-less');
 
 var PATHS = {
-    mainjs: "./src/js/main.js",
     js: "./src/js/**/*.js",
     html: "./src/**/*.html",
     less: "./src/**/site.less",
+    content: "./src/content/**/*",
+    dist: "./dist",
+
+    mainjs: "./src/js/main.js",
     bundlejs: "app.js",
-    dist: "./dist"
 };
 
 function buildJs(enableWatch) {
@@ -59,6 +61,12 @@ function buildLess() {
         .pipe(gulp.dest(PATHS.dist));
 }
 
+function buildContent() {
+    // just copies content files to dist. 
+    return gulp.src(PATHS.content)
+        .pipe(gulp.dest(PATHS.dist + '/content'));
+}
+
 gulp.task('html', function() {
     return buildHtml();
 });
@@ -86,8 +94,18 @@ gulp.task('less-watch', function() {
     return buildLess();
 });
 
+gulp.task('content', function() {
+    return buildContent();
+});
+gulp.task('content-watch', function() {
+    watch(PATHS.content, batch(function(events, done) {
+        gulp.start('content', done);
+    }));
+    return buildContent();
+});
 
-gulp.task('build', ['js', 'html', 'less']);
-gulp.task('watch', ['js-watch', 'html-watch', 'less-watch']);
+
+gulp.task('build', ['js', 'html', 'less', 'content']);
+gulp.task('watch', ['js-watch', 'html-watch', 'less-watch', 'content-watch']);
 gulp.task('default', ['watch']);
 
