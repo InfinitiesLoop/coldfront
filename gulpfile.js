@@ -21,6 +21,7 @@ var PATHS = {
     dist: "./dist",
 
     mainjs: "./src/js/main.js",
+    configjs: "./src/js/config.js",
     bundlejs: "app.js",
 };
 
@@ -67,6 +68,11 @@ function buildContent() {
         .pipe(gulp.dest(PATHS.dist + '/content'));
 }
 
+function buildConfig() {
+    return gulp.src(PATHS.configjs)
+        .pipe(gulp.dest(PATHS.dist + '/js'));
+}
+
 gulp.task('html', function() {
     return buildHtml();
 });
@@ -104,8 +110,17 @@ gulp.task('content-watch', function() {
     return buildContent();
 });
 
+gulp.task('config', function() {
+    return buildConfig();
+});
+gulp.task('config-watch', function() {
+    watch(PATHS.configjs, batch(function(events, done) {
+        gulp.start('config', done);
+    }));
+    return buildConfig();
+});
 
-gulp.task('build', ['js', 'html', 'less', 'content']);
-gulp.task('watch', ['js-watch', 'html-watch', 'less-watch', 'content-watch']);
+gulp.task('build', ['js', 'html', 'less', 'content', 'config']);
+gulp.task('watch', ['js-watch', 'html-watch', 'less-watch', 'content-watch', 'config-watch']);
 gulp.task('default', ['watch']);
 
