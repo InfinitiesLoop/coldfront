@@ -17,7 +17,7 @@ var PATHS = {
     mainjs: "./src/js/main.js",
     js: "./src/js/**/*.js",
     html: "./src/**/*.html",
-    less: "./src/**/*.less",
+    less: "./src/**/site.less",
     bundlejs: "app.js",
     dist: "./dist"
 };
