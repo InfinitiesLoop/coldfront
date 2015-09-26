@@ -1,0 +1,30 @@
+{
+  "name": "coldfront",
+  "version": "1.0.0",
+  "description": "A base repo for building front-end apps with gulp, browserify, react, and flux.",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InfinitiesLoop/coldfront.git"
+  },
+  "author": "Dave Reed <infinity88@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/InfinitiesLoop/coldfront/issues"
+  },
+  "homepage": "https://github.com/InfinitiesLoop/coldfront#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.4.1",
+    "gulp-util": "^3.0.6",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "browserify": "^11.2.0"
+  }
+}
