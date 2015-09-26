@@ -7,26 +7,64 @@ var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var gutil = require('gulp-util');
+var watchify = require('watchify');
+var watch = require('gulp-watch');
+var batch = require('gulp-batch');
 
 var PATHS = {
     mainjs: "./src/main.js",
-    js: "./src/**/*.js"
+    js: "./src/**/*.js",
+    html: "./src/**/*.html",
+    bundlejs: "app.js",
+    dist: "./dist"
 };
 
-gulp.task('javascript', function () {
-  // set up the browserify instance on a task basis
-  var b = browserify({
-    entries: PATHS.mainjs,
-    debug: true
-  });
+function buildJs(enableWatch) {
+    var b = browserify({
+        entries: PATHS.mainjs,
+        debug: true
+    });
+    b.on('log', gutil.log);
 
-  return b.bundle()
-    .pipe(source('app.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
+    if (enableWatch) {
+        b = watchify(b);
+        b.on('update', buildJs);
+    }
+
+    return b.bundle()
+        .pipe(source(PATHS.bundlejs))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
         .pipe(uglify())
         .on('error', gutil.log)
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./dist/scripts/'));
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest(PATHS.dist + '/scripts/'));
+}
+
+function buildHtml(enableWatch) {
+    return gulp.src(PATHS.html)
+        .pipe(gulp.dest(PATHS.dist));
+}
+
+gulp.task('html', function() {
+    return buildHtml();
 });
+gulp.task('html-watch', function() {
+    watch(PATHS.html, batch(function(events, done) {
+        gulp.start('html', done);
+    }));
+    return buildHtml();
+});
+
+gulp.task('js', function() {
+    return buildJs();
+});
+gulp.task('js-watch', function() {
+    return buildJs(true);
+});
+
+gulp.task('build', ['js', 'html']);
+gulp.task('watch', ['js-watch', 'html-watch']);
+gulp.task('default', ['watch']);
+

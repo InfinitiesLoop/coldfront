@@ -18,11 +18,14 @@
   "homepage": "https://github.com/InfinitiesLoop/coldfront#readme",
   "devDependencies": {
     "gulp": "^3.9.0",
+    "gulp-batch": "^1.0.5",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.4.1",
     "gulp-util": "^3.0.6",
+    "gulp-watch": "^4.3.5",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.4.0"
   },
   "dependencies": {
     "browserify": "^11.2.0"
