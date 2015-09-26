@@ -11,11 +11,13 @@ var watchify = require('watchify');
 var babelify = require('babelify');
 var watch = require('gulp-watch');
 var batch = require('gulp-batch');
+var less = require('gulp-less');
 
 var PATHS = {
     mainjs: "./src/main.js",
     js: "./src/**/*.js",
     html: "./src/**/*.html",
+    less: "./src/**/*.less",
     bundlejs: "app.js",
     dist: "./dist"
 };
@@ -51,6 +53,12 @@ function buildHtml() {
         .pipe(gulp.dest(PATHS.dist));
 }
 
+function buildLess() {
+    return gulp.src(PATHS.less)
+        .pipe(less())
+        .pipe(gulp.dest(PATHS.dist));
+}
+
 gulp.task('html', function() {
     return buildHtml();
 });
@@ -68,7 +76,18 @@ gulp.task('js-watch', function() {
     return buildJs(true);
 });
 
-gulp.task('build', ['js', 'html']);
-gulp.task('watch', ['js-watch', 'html-watch']);
+gulp.task('less', function() {
+    return buildLess();
+});
+gulp.task('less-watch', function() {
+    watch(PATHS.less, batch(function(events, done) {
+        gulp.start('less', done);
+    }));
+    return buildLess();
+});
+
+
+gulp.task('build', ['js', 'html', 'less']);
+gulp.task('watch', ['js-watch', 'html-watch', 'less-watch']);
 gulp.task('default', ['watch']);
 
