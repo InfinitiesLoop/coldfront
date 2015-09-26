@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/InfinitiesLoop/coldfront#readme",
   "devDependencies": {
+    "babelify": "^6.3.0",
     "gulp": "^3.9.0",
     "gulp-batch": "^1.0.5",
     "gulp-sourcemaps": "^1.5.2",

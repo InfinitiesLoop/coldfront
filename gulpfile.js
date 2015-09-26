@@ -8,6 +8,7 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var gutil = require('gulp-util');
 var watchify = require('watchify');
+var babelify = require('babelify');
 var watch = require('gulp-watch');
 var batch = require('gulp-batch');
 
@@ -30,6 +31,8 @@ function buildJs(enableWatch) {
         b = watchify(b);
         b.on('update', buildJs);
     }
+
+    b = b.transform(babelify);
 
     return b.bundle()
         .pipe(source(PATHS.bundlejs))
