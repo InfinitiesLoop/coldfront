@@ -42,7 +42,8 @@ function buildJs(enableWatch) {
         .pipe(gulp.dest(PATHS.dist + '/scripts/'));
 }
 
-function buildHtml(enableWatch) {
+function buildHtml() {
+    // just copies src html files to dist. 
     return gulp.src(PATHS.html)
         .pipe(gulp.dest(PATHS.dist));
 }
