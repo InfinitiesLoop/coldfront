@@ -1,4 +1,4 @@
 "use strict"
 
-// todo 
-console.log("App start.");
+// todo
+console.log(["App start.", window.AppConfig]);
