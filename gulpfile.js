@@ -44,7 +44,13 @@ function buildJs(enableWatch) {
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
-        .pipe(uglify())
+        .pipe(uglify({
+            compress: {
+                // don't drop "debugger;" statements, these can sometimes
+                // come in handy! Just don't ship them to prod you silly developer.
+                drop_debugger: false
+            }
+        }))
         .on('error', gutil.log)
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest(PATHS.dist + '/js'));
