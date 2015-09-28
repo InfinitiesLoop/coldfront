@@ -20,6 +20,8 @@ __Cold Front__ is a starter kit for building front-end websites that features:
 ## What is not
 __Cold Front__ tries not to make any opinions on runtime frameworks. So you will not find any references to things like jQuery, Bootstrap, Angular, React, or what-have-you. The only runtime requirement is **browserify** to enable importing of NPM packages, and whatever polyfils **babel** injects for ES6->ES5 transpiling.
 
+Cold Front makes no assumptions about what server tech you want to use. Many starter kits will use something like gulp-open and gulp-connect in order to automatically host and launch your application during development time. But I'd rather map an IIS site to my repo and be done with it. Gulp-open sounds nice, but you just end up with many duplicate tabs as it blindly reopens the app for you every time it runs. If you really want something like that, it's super easy to add to your own gulpfile, I just don't think it belongs in a starter kit!
+
 ## Installation
 
 	git clone https://github.com/InfinitiesLoop/coldfront.git
