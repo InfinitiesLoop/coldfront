@@ -1,21 +1,24 @@
 # Cold Front
 ![Cold Front](/src/content/cold-front.png?raw=true)
-*A simple starting point for front-end sites*
+*A simple starting point for building front-end sites*
 
-__Cold Front__ is a starter kit for building front-end websites that use:
+__Cold Front__ is a starter kit for building front-end websites that features:
 
 * gulp as a task runner and builder
-* browserify to bundle up client-side scripts
+* browserify to bundle up client-side scripts and allow for npm package imports
 * babelify to support ES6 and React
+* uglify for javascript minification
 * a js linter 
 * watchify to automatically rebuild during development
 * less for css
 * a simple directory structure for js/css/content
-* source maps keep your js debuggable despite all the transpiling and bunding going on
+* source maps keep your js and css debuggable despite all the transpiling and bunding going on
 * a config script to include environment-specific settings such as API urls
+* automatically generated cache-busting file paths so you can tell browsers to cache assets forever
+* produces a clean build output that can be deployed to multiple environments without rebuilding
 
 ## What is not
-__Cold Front__ tries not to make any opinions on runtime frameworks. So you will not find any references to things like jQuery, Bootstrap, Angular, React, or what-have-you.
+__Cold Front__ tries not to make any opinions on runtime frameworks. So you will not find any references to things like jQuery, Bootstrap, Angular, React, or what-have-you. The only runtime requirement is **browserify** to enable importing of NPM packages, and whatever polyfils **babel** injects for ES6->ES5 transpiling.
 
 ## Installation
 
@@ -46,10 +49,26 @@ This means that the configuration module must not be bundled in with the rest of
 
 ## Building
 
-Build and watch for changes:
+Build and automatically watch for changes:
 
-	gulp
+	gulp watch
 
 Just build:
 
 	gulp build
+
+Or just:
+
+    gulp
+
+
+## TODO
+
+* js linting and/or hinting
+* sourcemaps for LESS transformations
+* Probably simplify how the watching works
+* Test errors to ensure the output is helpful when things go wrong
+* Add a starter test suite
+* Better logo and an index page that explains how to use the starter kit to start building your own site
+* A gulp task that creates a new repo for you to start building from
+

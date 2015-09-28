@@ -186,7 +186,6 @@ gulp.task('default', ['build']);
 // since you can't really incrementally update assets without rebuilding the whole thing,
 // since a change to a JS file, for example, will cause there to be a new file name, which
 // means the HTML file referencing it must change, too.
-// TODO: Maybe just simplify and make watch rebuild everything every time
 gulp.task('watch', ['js-watch', 'html-watch', 'less-watch', 'content-watch', 'config-watch']);
 
 
