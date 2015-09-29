@@ -156,6 +156,11 @@ gulp.task('rev', ['js', 'html', 'less', 'content', 'config'], function() {
     var ra = new revAll({
         dontRenameFile: [/^.*\/config\.js$/g, /^.*\.html$/g],
         dontUpdateReference: [/^.*\/config\.js$/g],
+        // gulp-rev-all is pretty aggressive at replacing references. It will catch literal strings in
+        // js files, which is a problem for a call like document.getElementById('app'). It's not normal
+        // for a js file to reference a static file anyway, so best to just avoid even looking in js files.
+        // We really only care about references inside html and css.
+        dontSearchFile: [/.*\.js/g],
         hashLength: 5
     });
     return gulp.src(PATHS.dist + '/**')
