@@ -156,12 +156,8 @@ gulp.task('rev', ['js', 'html', 'less', 'content', 'config'], function() {
     var ra = new revAll({
         dontRenameFile: [/^.*\/config\.js$/g, /^.*\.html$/g],
         dontUpdateReference: [/^.*\/config\.js$/g],
-        // gulp-rev-all is pretty aggressive at replacing references. It will catch literal strings in
-        // js files, which is a problem for a call like document.getElementById('app'). It's not normal
-        // for a js file to reference a static file anyway, so best to just avoid even looking in js files.
-        // We really only care about references inside html and css.
-        dontSearchFile: [/.*\.js/g],
-        hashLength: 5
+        hashLength: 5,
+        replacer: revAllReplacer
     });
     return gulp.src(PATHS.dist + '/**')
         // This will rename files with cache-breaking filenames, 
@@ -179,6 +175,22 @@ gulp.task('rev', ['js', 'html', 'less', 'content', 'config'], function() {
             return cb();
         }));
 });
+
+function revAllReplacer(fragment, replaceRegExp, newReference, referencedFile) {
+    var regExp =  replaceRegExp;
+    if(referencedFile.path.match(/(\.js|\.map)$/)) {
+        // This bail-out catches an over-aggressive regex that rev-all uses.
+        // Without this, it would replace all JS string references, even those that 
+        // are not js file references. For example, it replaces document.getElementById("app")
+        // with document.getElementById("app.abd312.js").
+        // https://github.com/smysnk/gulp-rev-all/issues/97
+        if (replaceRegExp.toString().indexOf("()") > -1) {
+            // regex is too aggressive.
+            return;
+        }
+    }
+    fragment.contents = fragment.contents.replace(regExp, '$1' + newReference + '$3$4');
+};
 
 // 'gulp build' or just 'gulp' is what you would normally run to just get a build output.
 // This runs the whole process as well as rev-all(), which creates cache-busting file names
